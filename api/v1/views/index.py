@@ -24,8 +24,12 @@ def status():
 @app_views.route('/api/v1/stats', strict_slashes=False)
 def stats():
     """This method return the numbers of the objects"""
-    number_objects = {}
-    for key, value in classes:
-        number_objects[key] = storage.count(value)
-        print(number_objects)
+    number_objects = {
+            "amenities": storage.count(Amenity), 
+            "cities": storage.count(City), 
+            "places": storage.count(Place), 
+            "reviews": storage.count(Review), 
+            "states": storage.count(State), 
+            "users": storage.count(User)
+            }
     return jsonify(number_objects)
