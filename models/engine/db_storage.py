@@ -81,7 +81,6 @@ class DBStorage:
             key = "{}.{}".format(cls.__name__, id)
             if key in self.all():
                 return self.all()[key]
-            return None
         return None
 
     def count(self, cls=None):
