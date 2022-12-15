@@ -12,7 +12,7 @@ from models.review import Review
 
 classes = {"amenities": Amenity, "cities": City,
            "places": Place, "reviews": Review,
-           "States": State, "users": User}
+           "states": State, "users": User}
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
