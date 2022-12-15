@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Connection with flask"""
-from flask import Flask
+from flask import Flask, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -14,6 +14,10 @@ def teardown(exception):
     """Clase the current session"""
     storage.close()
 
+@app.errorhandler(404)
+def error():
+    """Make of the erroro 404, not found"""
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 if __name__ == '__main__':
     """Run the app session"""
