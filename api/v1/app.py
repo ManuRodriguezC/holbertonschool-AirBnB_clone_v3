@@ -14,10 +14,11 @@ def teardown(exception):
     """Clase the current session"""
     storage.close()
 
+
 @app.errorhandler(404)
-def error():
+def not_found(error):
     """Make of the erroro 404, not found"""
-    return make_response(jsonify({"error": "Not found"}), 404)
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 if __name__ == '__main__':
     """Run the app session"""
