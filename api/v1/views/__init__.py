@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""""""
+"""file init"""
 from flask import Blueprint
 
 
