@@ -25,7 +25,7 @@ def status():
 def stats():
     """This method return the numbers of the objects"""
     number_objects = {}
-    for key, value in classes:
+    for key, value in classes.items():
         number_objects[key] = storage.count(value)
         print(number_objects)
     return jsonify(number_objects)
