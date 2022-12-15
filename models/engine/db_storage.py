@@ -79,7 +79,9 @@ class DBStorage:
         """Return a object if exist in db"""
         if cls and id:
             key = "{}.{}".format(cls.__name__, id)
-            return self.all()[key]
+            if key in self.all():
+                return self.all()[key]
+            return None
         return None
 
     def count(self, cls=None):
