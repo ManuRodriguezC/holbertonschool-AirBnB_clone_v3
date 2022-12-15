@@ -14,12 +14,14 @@ classes = {"amenities": Amenity, "cities": City,
            "places": Place, "reviews": Review,
            "States": State, "users": User}
 
+
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status ():
     """This route return a json"""
-    return jsonify({"statis": "OK"})
+    return jsonify({'statis': 'OK'})
 
-@app_views.route('/api/v1/stats')
+
+@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """This method return the numbers of the objects"""
     number_objects = {}
