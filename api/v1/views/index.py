@@ -10,10 +10,10 @@ from models.user import User
 from models.amenity import Amenity
 from models.review import Review
 
-
 classes = {"amenities": Amenity, "cities": City,
            "places": Place, "reviews": Review,
            "States": State, "users": User}
+
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
