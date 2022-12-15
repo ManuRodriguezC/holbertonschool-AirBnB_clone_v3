@@ -21,15 +21,11 @@ def status():
     return jsonify({'status': 'OK'})
 
 
-@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """This method return the numbers of the objects"""
-    number_objects = {
-            "amenities": storage.count(Amenity),
-            "cities": storage.count(City),
-            "places": storage.count(Place),
-            "reviews": storage.count(Review),
-            "states": storage.count(State),
-            "users": storage.count(User)
-            }
+    number_objects = {}
+    for key, value in classes:
+        number_objects[key] = storage.count(value)
+        print(number_objects)
     return jsonify(number_objects)
