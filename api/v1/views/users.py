@@ -6,7 +6,7 @@ from api.v1.views import app_views
 from models.user import User
 from flask import request, jsonify, make_response
 
-list_met = ['GET', 'DELETE', 'POST', 'PUT']
+list_met = ['GET', 'DELETE', 'PUT']
 
 
 @app_views.route('/users', methods=list_met, strict_slashes=False)
@@ -14,6 +14,7 @@ list_met = ['GET', 'DELETE', 'POST', 'PUT']
 def states(user_id=None):
     """
     """
+
     if request.method == 'GET':
         if user_id:
             obj = storage.get(User, user_id)
@@ -32,19 +33,6 @@ def states(user_id=None):
                 return make_response(jsonify({}), 200)
             return make_response(jsonify({'error': 'Not found'}), 404)
 
-    if request.method == 'POST':
-        content = request.get_json()
-        if content:
-            if "email" not in content:
-                return make_response(jsonify("error"": Missing email"), 400)
-            if "password" not in content:
-                return make_response(jsonify("error"": Missing password"), 400)
-            else:
-                new = User(**content)
-                new.save()
-                return make_response(jsonify(new.to_dict()), 201)
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-
     if request.method == 'PUT':
         if user_id:
             content = request.get_json()
@@ -59,3 +47,18 @@ def states(user_id=None):
                     user.save()
                     return make_response(jsonify(user.to_dict()), 200)
         return make_response(jsonify({"error": "Not found"}), 404)
+
+@app_views('/amenities', methods=['POST'], strict_slashes=False)
+def post_amenity():
+    """Method post that create object amenity"""
+    content = request.get_json()
+    if content:
+        if "email" not in content:
+            return make_response(jsonify("error"": Missing email"), 400)
+        if "password" not in content:
+            return make_response(jsonify("error"": Missing password"), 400)
+        else:
+            new = User(**content)
+            new.save()
+            return make_response(jsonify(new.to_dict()), 201)
+    return make_response(jsonify({"error": "Not a JSON"}), 400)
