@@ -30,7 +30,7 @@ def cities(state_id=None):
                 content["state_id"] = state_id
                 new = City(**content)
                 new.save()
-                return make_response(jsonify(new.to_dict()), 200)
+                return make_response(jsonify(new.to_dict()), 201)
             return make_response(jsonify({"error": "Not found"}), 404)
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
@@ -52,7 +52,7 @@ def city(city_id=None):
                 storage.delete(city_current)
                 storage.save()
                 return make_response(jsonify({}), 200)
-            return make_response(jsonify({"error": "Not found"}))
+            return make_response(jsonify({"error": "Not found"}), 404)
 
     if request.method == 'PUT':
         if city_id:
