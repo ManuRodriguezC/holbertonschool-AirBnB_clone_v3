@@ -6,11 +6,11 @@ from models.state import State
 from flask import request, jsonify, make_response
 
 
-list_methods = ['GET', 'DELETE', 'POST', 'PUT']
+list_met = ['GET', 'DELETE', 'POST', 'PUT']
 
 
-@app_views.route('/states', methods=list_methods, strict_slashes=False)
-@app_views.route('/states/<state_id>', methods=list_methods, strict_slashes=False)
+@app_views.route('/states', methods=list_met, strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=list_met, strict_slashes=False)
 def states(state_id=None):
     """"""
     if request.method == 'GET':
@@ -39,17 +39,19 @@ def states(state_id=None):
             else:
                 new = State(**content)
                 new.save()
-                return make_response(jsonify(new.to_dict()), 200)
+                return make_response(jsonify(new.to_dict()), 201)
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    """
+
     if request.method == 'PUT':
-        content = request.get_json()
-        if not content:
-            return make_response(jsonify({"error"}))
-        state = storage.get(State, state_id)
-        
-        if content:
-            dates = storage.all()
-            dates[]
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-    """
+        if state_id:
+            content = request.get_json()
+            if not content:
+                return make_response(jsonify({"error": "Not a JSON"}))
+            state = storage.get(State, state_id)
+            if not state:
+                return make_response(jsonify({"error": "Not found"}))
+            for key, value in content.items():
+                if key != "id" and key != "created_at" and key != "updated_at":
+                    setattr(state, key, value)
+                    state.save()
+                    return make_response(jsonify(state.to_dict()), 200)
