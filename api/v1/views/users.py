@@ -15,13 +15,13 @@ def states(user_id=None):
     """
     """
     if request.method == 'GET':
-        if state_id:
-            obj = storage.get(State, state_id)
+        if user_id:
+            obj = storage.get(User, user_id)
             if obj:
                 return jsonify(obj.to_dict())
             return make_response(jsonify({'error': 'Not found'}), 404)
-        state_objs = [state.to_dict() for state in storage.all(State).values()]
-        return jsonify(state_objs)
+        user_objs = [state.to_dict() for state in storage.all(User).values()]
+        return jsonify(user_objs)
 
     if request.method == 'DELETE':
         if user_id:
