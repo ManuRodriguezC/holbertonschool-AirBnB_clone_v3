@@ -56,4 +56,3 @@ def states(state_id=None):
                     state.save()
                     return make_response(jsonify(state.to_dict()), 200)
         return make_response(jsonify({"error": "Not found"}), 404)
-        
