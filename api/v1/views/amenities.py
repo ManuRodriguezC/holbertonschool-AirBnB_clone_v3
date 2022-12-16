@@ -8,8 +8,8 @@ from flask import request, make_response, jsonify
 met = ['GET', 'DELETE', 'POST', 'PUT']
 
 
-@app_views.route('amenities', methods=met, strict_slashes=True)
-@app_views.route('amenities/<amenity_id>', methods=met, strict_slashes=True)
+@app_views.route('/amenities', methods=met, strict_slashes=True)
+@app_views.route('/amenities/<amenity_id>', methods=met, strict_slashes=True)
 def amenities(amenity_id=None):
     """This method check the type request method"""
     if request.method == 'GET':
