@@ -35,8 +35,10 @@ def states(user_id=None):
     if request.method == 'POST':
         content = request.get_json()
         if content:
-            if "name" not in content:
-                return make_response(jsonify("error"": Missing name"), 400)
+            if "email" not in content:
+                return make_response(jsonify("error"": Missing email"), 400)
+            if "password" not in content:
+                return make_response(jsonify("error"": Missing password"), 400)
             else:
                 new = User(**content)
                 new.save()
