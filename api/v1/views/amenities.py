@@ -12,6 +12,7 @@ met = ['GET', 'DELETE', 'POST', 'PUT']
 @app_views.route('/amenities/<amenity_id>', methods=met, strict_slashes=True)
 def amenities(amenity_id=None):
     """This method check the type request method"""
+
     if request.method == 'GET':
         if amenity_id:
             amenity = storage.get(Amenity, amenity_id)
@@ -33,12 +34,11 @@ def amenities(amenity_id=None):
     if request.method == 'POST':
         content = request.get_json()
         if content:
-            if "name" not in content:
-                return make_response(jsonify({"error": "Missing name"}), 400)
-            else:
+            if "name" in content:
                 new = Amenity(**content)
                 new.save()
                 return make_response(jsonify(new.to_dict()), 201)
+            return make_response(jsonify({"error": "Missing name"}), 400)
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     if request.method == 'PUT':
