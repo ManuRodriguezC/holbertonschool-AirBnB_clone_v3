@@ -35,9 +35,10 @@ def amenities(amenity_id=None):
         if content:
             if "name" not in content:
                 return make_response(jsonify({"error": "Missing name"}), 400)
-            new = Amenity(**content)
-            new.save()
-            return make_response(jsonify(new.to_dict()), 200)
+            else:
+                new = Amenity(**content)
+                new.save()
+                return make_response(jsonify(new.to_dict()), 201)
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     if request.method == 'PUT':
@@ -49,8 +50,7 @@ def amenities(amenity_id=None):
         if amenity:
             for key, value in content.items():
                 if key != "id" and key != "created_at" and key != "update_at":
-                    setattr(amenity, k, value)
+                    setattr(amenity, key, value)
                     storage.save()
                     return make_response(jsonify(amenity.to_dict()), 200)
-        return make_response(jsonify({"error": "Not found"}), 404)
         return make_response(jsonify({"error": "Not found"}), 404)
