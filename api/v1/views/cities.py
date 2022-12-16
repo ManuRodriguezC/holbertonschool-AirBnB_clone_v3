@@ -63,7 +63,8 @@ def city(city_id=None):
             if not city_current:
                 return make_response(jsonify({"error": "Not found"}), 404)
             for key, value in content.items():
-                setattr(city_current, key, value)
-                city_current.save()
-                return make_response(jsonify(city_current.to_dict()), 200)
+                if key != "id" and key != "created_at" and key != "updated_at":
+                    setattr(city_current, key, value)
+                    city_current.save()
+                    return make_response(jsonify(city_current.to_dict()), 200)
         return make_response(jsonify({"error": "Not found"}), 404)
