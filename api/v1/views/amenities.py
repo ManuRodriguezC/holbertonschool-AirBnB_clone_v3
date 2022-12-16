@@ -5,7 +5,7 @@ from models.amenity import Amenity
 from api.v1.views import app_views
 from flask import request, make_response, jsonify
 
-met = ['GET', 'DELETE', 'POST', 'PUT']
+met = ['GET', 'DELETE', 'PUT']
 
 
 @app_views.route('/amenities', methods=met, strict_slashes=True)
@@ -31,16 +31,6 @@ def amenities(amenity_id=None):
                 return make_response(jsonify({}), 200)
             return make_response(jsonify({"error": "Not found"}), 404)
 
-    if request.method == 'POST':
-        content = request.get_json()
-        if content:
-            if "name" in content:
-                new = Amenity(**content)
-                new.save()
-                return make_response(jsonify(new.to_dict()), 201)
-            return make_response(jsonify({"error": "Missing name"}), 400)
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-
     if request.method == 'PUT':
         if amenity_id:
             content = request.get_json()
@@ -54,3 +44,16 @@ def amenities(amenity_id=None):
                     storage.save()
                     return make_response(jsonify(amenity.to_dict()), 200)
         return make_response(jsonify({"error": "Not found"}), 404)
+
+
+@app_views.route('/amenities', methods=['POST'], strict_slashes=True)
+def post_amenities():
+    """Method that created a object amenity"""
+    content = request.get_json()
+    if content:
+        if "name" in content:
+            new = Amenity(**content)
+            new.save()
+            return make_response(jsonify(new.to_dict()), 201)
+        return make_response(jsonify({"error": "Missing name"}), 400)
+    return make_response(jsonify({"error": "Not a JSON"}), 400)
