@@ -46,12 +46,14 @@ def states(state_id=None):
         if state_id:
             content = request.get_json()
             if not content:
-                return make_response(jsonify({"error": "Not a JSON"}))
+                return make_response(jsonify({"error": "Not a JSON"}), 400)
             state = storage.get(State, state_id)
             if not state:
-                return make_response(jsonify({"error": "Not found"}))
+                return make_response(jsonify({"error": "Not found"}), 404)
             for key, value in content.items():
                 if key != "id" and key != "created_at" and key != "updated_at":
                     setattr(state, key, value)
                     state.save()
                     return make_response(jsonify(state.to_dict()), 200)
+        return make_response(jsonify({"error": "Not found"}), 404)
+        
