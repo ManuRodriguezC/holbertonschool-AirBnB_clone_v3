@@ -54,7 +54,7 @@ def states(user_id=None):
             if not user:
                 return make_response(jsonify({"error": "Not found"}), 404)
             for key, value in content.items():
-                if key != "id" and key != "created_at" and key != "updated_at":
+                if key != "id" and key != "email" and key != "created_at" and key != "updated_at":
                     setattr(user, key, value)
                     user.save()
                     return make_response(jsonify(user.to_dict()), 200)
