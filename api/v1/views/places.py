@@ -31,15 +31,13 @@ def places(city_id=None):
                     return make_response(jsonify({"error": "Missing user_id"}), 400)
             if city_id:
                 city = storage.get(City, city_id)
-                if not city:
-                    return make_response(jsonify({"error": "Not found"}), 404)
-                
-                if "user_id" not in city:
-                    return make_response(jsonify({"erorr": "Not found"}), 404)
-                
-                new = Place(**content)
-                new.save()
-                return make_response(jsonify(new.to_dict()), 200)
+                if city:
+                    if "user_id" not in city:
+                        return make_response(jsonify({"erorr": "Not found"}), 404)
+                    new = Place(**content)
+                    new.save()
+                    return make_response(jsonify(new.to_dict()), 200)
+                return make_response(jsonify({"error": "Not found"}), 404)
             return make_response(jsonify({"error": "Not found"}), 404)
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
