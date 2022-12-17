@@ -27,12 +27,13 @@ def places(city_id=None):
         if content:
             if "name" not in content:
                     return make_response(jsonify({"error": "Missing name"}), 400)
+            if "user_id" not in content:
+                    return make_response(jsonify({"error": "Missing user_id"}), 400)
             if city_id:
                 city = storage.get(City, city_id)
                 if not city:
                     return make_response(jsonify({"error": "Not found"}), 404)
-                if "user_id" not in content:
-                    return make_response(jsonify({"error": "Missing user_id"}))
+                
                 if "user_id" not in city:
                     return make_response(jsonify({"erorr": "Not found"}), 404)
                 
