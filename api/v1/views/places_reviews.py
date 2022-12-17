@@ -7,11 +7,11 @@ from models.user import User
 from flask import request, make_response, jsonify
 from api.v1.views import app_views
 
-met = ['GET', 'DELETE', 'POST', 'PUT']
+m = ['GET', 'DELETE', 'POST', 'PUT']
 list_keys = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
 
 
-@app_views.route('/places/<place_id>/reviews', methods=met, strict_slashes=False)
+@app_views.route('/places/<place_id>/reviews', methods=m, strict_slashes=False)
 def reviews(place_id=None):
     """This method give place id in reviews"""
     if request.method == 'GET':
@@ -28,7 +28,7 @@ def reviews(place_id=None):
         if not content:
             return make_response(jsonify({"error": "Not a JSON"}), 400)
         if "text" not in content:
-            return make_response(jsonify({"error": "Missing name"}), 400)
+            return make_response(jsonify({"error": "Missing text"}), 400)
         if "user_id" not in content:
             return make_response(jsonify({"error": "Missing user_id"}), 400)
         if place_id:
@@ -45,7 +45,7 @@ def reviews(place_id=None):
         return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app_views.route('/reviews/<review_id>', methods=met, strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=m, strict_slashes=False)
 def review(review_id=None):
     """This method return review with id"""
     if request.method == 'GET':
@@ -65,7 +65,6 @@ def review(review_id=None):
                 return make_response(jsonify({}), 200)
             return make_response(jsonify({"error": "Not found"}), 404)
         return make_response(jsonify({"error": "Not found"}), 404)
-        
 
     if request.method == 'PUT':
         content = request.get_json()
