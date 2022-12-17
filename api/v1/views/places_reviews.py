@@ -27,7 +27,7 @@ def reviews(place_id=None):
         content = request.get_json()
         if not content:
             return make_response(jsonify({"error": "Not a JSON"}), 400)
-        if "name" not in content:
+        if "text" not in content:
             return make_response(jsonify({"error": "Missing name"}), 400)
         if "user_id" not in content:
             return make_response(jsonify({"error": "Missing user_id"}), 400)
