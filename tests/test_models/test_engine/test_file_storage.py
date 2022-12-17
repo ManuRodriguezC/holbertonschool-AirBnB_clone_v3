@@ -85,6 +85,14 @@ class TestFileStorage(unittest.TestCase):
         object_current = storage.get(State, None)
         self.assertEqual(object_current.id, None)
 
+    @unittest.skipIf(models.storage_t == 'db', "not testing db storage")
+    def test_count(self):
+        """Test that count objs"""    
+        state_1 = State()
+        state_2 = State()
+        state_3 = State()
+        self.assertEqual(storage.count(State), 3)
+
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
         """test that new adds an object to the FileStorage.__objects attr"""
