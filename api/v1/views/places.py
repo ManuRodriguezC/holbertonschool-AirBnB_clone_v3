@@ -77,6 +77,6 @@ def place_id(place_id=None):
             for key, value in content.items():
                 if key not in list_keys:
                     setattr(place, key, value)
-                    place. save()
-                    return make_response(jsonify(place.to_dict()), 200)
+                place. save()
+                return make_response(jsonify(place.to_dict()), 200)
             return make_response(jsonify({"error": "Not found"}), 404)
