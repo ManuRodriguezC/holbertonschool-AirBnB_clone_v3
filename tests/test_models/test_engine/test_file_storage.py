@@ -80,6 +80,13 @@ class TestFileStorage(unittest.TestCase):
         self.assertIs(new_dict, storage._FileStorage__objects)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test that get any obj"""
+        id = 121314
+        object_current = storage.get(State, id)
+        self.assertEqual(object_current.id, id)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
         """test that new adds an object to the FileStorage.__objects attr"""
         storage = FileStorage()
@@ -114,11 +121,3 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
-
-    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_get(self):
-        """Test that get any obj"""
-        id = 121314
-        object_current = storage.get(State, id)
-        self.assertEqual(object_current.id, id)
-
