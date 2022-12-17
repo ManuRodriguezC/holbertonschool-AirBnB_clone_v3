@@ -25,6 +25,8 @@ def places(city_id=None):
     if request.method == 'POST':
         content = request.get_json()
         if content:
+            if "name" not in content:
+                    return make_response(jsonify({"error": "Missing name"}), 400)
             if city_id:
                 city = storage.get(City, city_id)
                 if not city:
@@ -33,14 +35,12 @@ def places(city_id=None):
                     return make_response(jsonify({"error": "Missing user_id"}))
                 if "user_id" not in city:
                     return make_response(jsonify({"erorr": "Not found"}), 404)
-                if "name" not in content:
-                    return make_response(jsonify({"error": "Missing name"}))
+                
                 new = Place(**content)
                 new.save()
                 return make_response(jsonify(new.to_dict()), 200)
             return make_response(jsonify({"error": "Not found"}), 404)
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-
 
 
 @app_views.route('/places/<place_id>', methods=met, strict_slashes=False)
