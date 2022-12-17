@@ -4,6 +4,7 @@ from models import storage
 from flask import request, make_response, jsonify
 from models.place import Place
 from models.city import City
+from models.user import User
 from api.v1.views import app_views
 
 met = ['GET', 'DELETE', 'POST', 'PUT']
@@ -32,9 +33,13 @@ def places(city_id=None):
             if city_id:
                 city = storage.get(City, city_id)
                 if city:
+                    user = storage.get(User, content['user_id'])
+                    if not user:
+                        return make_response(jsonify({"error": "Not found"}), 404)
+                    content["city_id"] = city_id
                     new = Place(**content)
                     new.save()
-                    return make_response(jsonify(new.to_dict()), 200)
+                    return make_response(jsonify(new.to_dict()), 201)
                 return make_response(jsonify({"error": "Not found"}), 404)
             return make_response(jsonify({"error": "Not found"}), 404)
         return make_response(jsonify({"error": "Not a JSON"}), 400)
