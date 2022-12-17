@@ -82,7 +82,6 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
         """Test that get any obj"""
-        
         object_current = storage.get(State, None)
         self.assertEqual(object_current, None)
 
