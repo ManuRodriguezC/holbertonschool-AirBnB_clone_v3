@@ -8,8 +8,8 @@ from flask import request, make_response, jsonify
 met = ['GET', 'DELETE', 'PUT']
 
 
-@app_views.route('/amenities', methods=met, strict_slashes=True)
-@app_views.route('/amenities/<amenity_id>', methods=met, strict_slashes=True)
+@app_views.route('/amenities', methods=met, strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=met, strict_slashes=False)
 def amenities(amenity_id=None):
     """This method check the type request method"""
 
@@ -46,7 +46,7 @@ def amenities(amenity_id=None):
         return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app_views.route('/amenities', methods=['POST'], strict_slashes=True)
+@app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def post_amenities():
     """Method that created a object amenity"""
     content = request.get_json()
