@@ -7,11 +7,12 @@ from models.user import User
 from flask import request, jsonify, make_response
 
 list_met = ['GET', 'DELETE', 'POST', 'PUT']
+list_key = ['id', 'email', 'created_at', 'update_at']
 
 
 @app_views.route('/users', methods=list_met, strict_slashes=False)
 @app_views.route('/users/<user_id>', methods=list_met, strict_slashes=False)
-def states(user_id=None):
+def users(user_id=None):
     """
     """
 
@@ -40,10 +41,9 @@ def states(user_id=None):
                 return make_response(jsonify("error"": Missing email"), 400)
             if "password" not in content:
                 return make_response(jsonify("error"": Missing password"), 400)
-            else:
-                new = User(**content)
-                new.save()
-                return make_response(jsonify(new.to_dict()), 201)
+            new = User(**content)
+            new.save()
+            return make_response(jsonify(new.to_dict()), 201)
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     if request.method == 'PUT':
@@ -55,7 +55,7 @@ def states(user_id=None):
             if not user:
                 return make_response(jsonify({"error": "Not found"}), 404)
             for key, value in content.items():
-                if key != "id" and key != "email" and key != "created_at" and key != "updated_at":
+                if key not in list_key:
                     setattr(user, key, value)
                     user.save()
                     return make_response(jsonify(user.to_dict()), 200)
