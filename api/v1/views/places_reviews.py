@@ -11,7 +11,7 @@ met = ['GET', 'DELETE', 'POST', 'PUT']
 list_keys = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
 
 
-@app_views.route('/places/<place_id>/reviews')
+@app_views.route('/places/<place_id>/reviews', methods=met, strict_slashes=False)
 def reviews(place_id=None):
     """This method give place id in reviews"""
     if request.method == 'GET':
@@ -45,7 +45,7 @@ def reviews(place_id=None):
         return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app_views.route('/reviews/<review_id>')
+@app_views.route('/reviews/<review_id>', methods=met, strict_slashes=False)
 def review(review_id=None):
     """This method return review with id"""
     if request.method == 'GET':
@@ -57,14 +57,15 @@ def review(review_id=None):
         return make_response(jsonify({"error": "Not found"}), 404)
 
     if request.method == 'DELETE':
+        review = storage.get(Review, review_id)
         if review_id:
-            review = storage.get(Review, review_id)
             if review:
                 storage.delete(review)
                 storage.save()
                 return make_response(jsonify({}), 200)
             return make_response(jsonify({"error": "Not found"}), 404)
         return make_response(jsonify({"error": "Not found"}), 404)
+        
 
     if request.method == 'PUT':
         content = request.get_json()
