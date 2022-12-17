@@ -25,24 +25,24 @@ def places(city_id=None):
 
     if request.method == 'POST':
         content = request.get_json()
-        if content:
-            if "name" not in content:
-                    return make_response(jsonify({"error": "Missing name"}), 400)
-            if "user_id" not in content:
-                    return make_response(jsonify({"error": "Missing user_id"}), 400)
-            if city_id:
-                city = storage.get(City, city_id)
-                if city:
-                    user = storage.get(User, content['user_id'])
-                    if not user:
-                        return make_response(jsonify({"error": "Not found"}), 404)
-                    content["city_id"] = city_id
-                    new = Place(**content)
-                    new.save()
-                    return make_response(jsonify(new.to_dict()), 201)
-                return make_response(jsonify({"error": "Not found"}), 404)
+        if not content:
+            return make_response(jsonify({"error": "Not a JSON"}), 400)
+        if "name" not in content:
+            return make_response(jsonify({"error": "Missing name"}), 400)
+        if "user_id" not in content:
+            return make_response(jsonify({"error": "Missing user_id"}), 400)
+        if city_id:
+            city = storage.get(City, city_id)
+            if city:
+                user = storage.get(User, content['user_id'])
+                if not user:
+                    return make_response(jsonify({"error": "Not found"}), 404)
+                content["city_id"] = city_id
+                new = Place(**content)
+                new.save()
+                return make_response(jsonify(new.to_dict()), 201)
             return make_response(jsonify({"error": "Not found"}), 404)
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
+        return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app_views.route('/places/<place_id>', methods=met, strict_slashes=False)
@@ -77,6 +77,6 @@ def place_id(place_id=None):
             for key, value in content.items():
                 if key not in list_keys:
                     setattr(place, key, value)
-                place. save()
-                return make_response(jsonify(place.to_dict()), 200)
-            return make_response(jsonify({"error": "Not found"}), 404)
+            place. save()
+            return make_response(jsonify(place.to_dict()), 200)
+        return make_response(jsonify({"error": "Not found"}), 404)
